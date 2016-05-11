@@ -1,17 +1,48 @@
 .source.js {
+  // the default operator color is a weird special hue and it's really inconsistent
+  // e.g. the arrow (=>) color is different from the rest
+  // so this makes em all purple
   .keyword.operator {
-    color: @hue-1;
+    color: @hue-3;
+  }
 
-    // keywords are definded in https://github.com/atom/language-javascript/blob/master/grammars/javascript.cson
-    // search "instanceof" for location
-    &.delete,
-    &.in,
-    &.of,
-    &.instanceof,
-    &.new,
-    &.typeof,
-    &.void {
-      color: @hue-3;
+  // module import/exports don't need a special color
+  .variable.other.module,
+  // constants don't need a special color
+  .constant,
+  // functions when defined could use a special color but it's broken for constants anyways so fuck
+  // it
+  .entity.name.function,
+  // objects don't need a special color
+  .object,
+  // properties don't need a special color
+  .property {
+    color: @syntax-fg;
+  }
+
+  // "language constants" are like `true`, `false`, `null`, etc
+  .constant.language {
+    color: @hue-6;
+  }
+
+  // classes kinda could use its own color, idk, mixed on this
+  // also this includes `window` and `document` but not `console` for some fucking reason
+  .entity.name.type, .support.class {
+    color: @hue-2;
+  }
+
+  // Ensure built-in methods are same color as other methods
+  // this prevents things like custom methods named "log" being colored differently for no goddamn
+  // reason
+  .meta.method-call, .meta.function-call {
+    .entity.name.function, .support.function {
+      color: @hue-2;
     }
+  }
+
+  // for some reason "export default" had different colors for "export" and "default"
+  // this fixes that
+  .variable.language.default {
+    color: @hue-3;
   }
 }
